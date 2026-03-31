@@ -2,23 +2,36 @@ import streamlit as st
 import requests
 import os
 
+# ========== HIDE STREAMLIT BRANDING ==========
+hide_streamlit_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .stDeployButton {display: none;}
+    .stAppDeployButton {display: none;}
+    [data-testid="stToolbar"] {display: none;}
+    .stApp > header {display: none;}
+    .st-emotion-cache-1v0mbdj {display: none;}
+    .st-emotion-cache-12w0qpk {display: none;}
+    .st-emotion-cache-1r6slb0 {display: none;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 st.set_page_config(page_title="Ibraxon AI", page_icon="🤖", layout="wide")
 
 st.title("🤖 Ibraxon AI")
 st.caption("Your Intelligent Assistant")
 
-# Get API key from environment
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 
-# Initialize chat
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Hello! How can I help you?"}]
 
-# Display chat
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-# Chat input
 if prompt := st.chat_input("Type your message..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
@@ -40,6 +53,5 @@ if prompt := st.chat_input("Type your message..."):
             except Exception as e:
                 st.error(f"Error: {str(e)}")
 
-# Footer
 st.markdown("---")
 st.markdown("**Ibrahim Talib** | Computer Science Student | Dushanbe Innovative Institute")
